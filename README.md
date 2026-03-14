@@ -22,6 +22,16 @@ If you want to take advantage of off-peak energy rates (like starting your laund
 
 ## 🚀 Getting Started
 
+---
+**Troubleshooting & Prerequisites**
+
+- Make sure you have [Node.js](https://nodejs.org/) (v16 or newer) and npm installed.
+- If you encounter errors, try deleting `node_modules` and `package-lock.json`, then run `npm install` again.
+- If you see Tailwind warnings about missing utility classes, ensure you are editing `App.jsx`, `main.jsx`, or `index.html` (or update `tailwind.config.js` if you add new files/folders).
+- If the app is blank in the browser, check the browser console for errors and ensure only one `export default` exists in `App.jsx`.
+- If the dev server says the port is in use, open the new port shown in the terminal (e.g., http://localhost:5174/).
+---
+
 To run this project locally on your machine, follow these steps:
 
 ### 1. Clone the repository
