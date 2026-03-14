@@ -22,43 +22,52 @@ If you want to take advantage of off-peak energy rates (like starting your laund
 
 ## 🚀 Getting Started
 
----
-**Troubleshooting & Prerequisites**
+### Prerequisites
 
-- Make sure you have [Node.js](https://nodejs.org/) (v16 or newer) and npm installed.
-- If you encounter errors, try deleting `node_modules` and `package-lock.json`, then run `npm install` again.
-- If you see Tailwind warnings about missing utility classes, ensure you are editing `App.jsx`, `main.jsx`, or `index.html` (or update `tailwind.config.js` if you add new files/folders).
-- If the app is blank in the browser, check the browser console for errors and ensure only one `export default` exists in `App.jsx`.
-- If the dev server says the port is in use, open the new port shown in the terminal (e.g., http://localhost:5174/).
----
+- [Node.js](https://nodejs.org/) (v16 or newer)
+- npm (comes with Node.js)
+
+### Project Dependencies
+
+The following packages will be installed automatically with `npm install`:
+
+- **react**
+- **react-dom**
+- **lucide-react**
+- **vite**
+- **@vitejs/plugin-react**
+- **tailwindcss**
+- **autoprefixer**
+- **postcss**
 
 To run this project locally on your machine, follow these steps:
 
 ### 1. Clone the repository
-\`\`\`bash
+```bash
 git clone https://github.com/your-username/bosch-auto-delay.git
 cd bosch-auto-delay
-\`\`\`
+```
 
 ### 2. Install dependencies
-\`\`\`bash
+```bash
 npm install
-\`\`\`
+```
 
-### 3. Set up your API Key
-To enable the Smart Laundry Assistant, you need a free Google Gemini API key.
+### 3. (Optional) Enable Smart Laundry Assistant
+To use the AI-powered Smart Laundry Assistant, you need a free Google Gemini API key:
+
 1. Get your API key from [Google AI Studio](https://aistudio.google.com/).
-2. Create a file named \`.env\` in the root of your project.
-3. Add your key to the file like this:
-\`\`\`env
-VITE_GEMINI_API_KEY=your_api_key_here
-\`\`\`
-*(Note: You will also need to update the \`App.jsx\` file to use \`import.meta.env.VITE_GEMINI_API_KEY\` instead of the hardcoded string).*
+2. Create a file named `.env` in the root of your project.
+3. Add your key to the file:
+   ```env
+   VITE_GEMINI_API_KEY=your_api_key_here
+   ```
+4. In `App.jsx`, use `import.meta.env.VITE_GEMINI_API_KEY` to access your key.
 
 ### 4. Run the development server
-\`\`\`bash
+```bash
 npm run dev
-\`\`\`
+```
 Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
 
 ## 🌍 Deploying
