@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/4dc48d18-4f07-492e-9af7-0f5ac84e139c/deploy-status)](https://app.netlify.com/projects/bosh-auto-delay/deploys)
+
 # 🧺 Bosch Auto-Delay Scheduler
 
 A sleek, mobile-friendly React application designed to take the math out of scheduling your Bosch washing machine and dryer. 
