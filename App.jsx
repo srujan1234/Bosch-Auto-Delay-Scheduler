@@ -53,6 +53,14 @@ const getDublinTime = () => {
   return new Date(dt.year, dt.month - 1, dt.day, dt.hour, dt.minute, dt.second);
 };
 
+const CHEAP_START_HOUR = 23;
+const CHEAP_END_HOUR = 8;
+
+function isInCheapWindow(date) {
+  const hour = date.getHours();
+  return (hour >= CHEAP_START_HOUR || hour < CHEAP_END_HOUR);
+}
+
 function App() {
   const [mode, setMode] = useState('washer');
   const [index, setIndex] = useState(0);
@@ -75,28 +83,43 @@ function App() {
   const calculateResult = () => {
     if (index === 0) return null; 
 
-    const [tHours, tMins] = targetTime.split(':').map(Number);
+    const tHours = 23, tMins = 0;
     let targetStart = new Date(currentTime);
     targetStart.setHours(tHours, tMins, 0, 0);
-
     if (targetStart <= currentTime) {
       targetStart.setDate(targetStart.getDate() + 1);
     }
 
+    const cheapStart = new Date(currentTime);
+    cheapStart.setHours(CHEAP_START_HOUR, 0, 0, 0);
+    const cheapEnd = new Date(currentTime);
+    if (CHEAP_END_HOUR > CHEAP_START_HOUR) {
+      cheapEnd.setHours(CHEAP_END_HOUR, 0, 0, 0);
+    } else {
+      cheapEnd.setDate(cheapEnd.getDate() + 1);
+      cheapEnd.setHours(CHEAP_END_HOUR, 0, 0, 0);
+    }
+
+    const finishIfStartedNow = new Date(currentTime.getTime() + currentProgram.time * 60000);
+    if (isInCheapWindow(currentTime) && finishIfStartedNow <= cheapEnd) {
+      return {
+        presses: 0,
+        finishInDisplay: `${Math.floor(currentProgram.time / 60).toString().padStart(2, '0')}:${(currentProgram.time % 60).toString().padStart(2, '0')}`,
+        actualStart: currentTime.toLocaleTimeString('en-IE', { hour: '2-digit', minute:'2-digit', hour12: true }),
+        actualFinish: finishIfStartedNow.toLocaleTimeString('en-IE', { hour: '2-digit', minute:'2-digit', hour12: true })
+      };
+    }
+
     const diffMs = targetStart.getTime() - currentTime.getTime();
     const diffHours = diffMs / 3600000;
-    
     let pressesNeeded = Math.ceil(diffHours);
     if (pressesNeeded < 0) pressesNeeded = 0;
-
     const totalMinutesToFinish = (pressesNeeded * 60) + currentProgram.time;
     const exactFinishInHours = Math.floor(totalMinutesToFinish / 60);
     const exactFinishInMins = totalMinutesToFinish % 60;
     const exactFinishInDisplay = `${exactFinishInHours.toString().padStart(2, '0')}:${exactFinishInMins.toString().padStart(2, '0')}`;
-
     const actualStart = new Date(currentTime.getTime() + pressesNeeded * 3600000);
     const actualFinish = new Date(actualStart.getTime() + currentProgram.time * 60000);
-
     const formatTime = (d) => d.toLocaleTimeString('en-IE', { hour: '2-digit', minute:'2-digit', hour12: true });
 
     return {
@@ -186,21 +209,31 @@ function App() {
                   }`} />
                 </div>
 
-                <div 
+                {/* Improved circular clickable area for each program */}
+                <button
+                  type="button"
                   onClick={() => setIndex(i)}
-                  className="absolute flex items-center justify-center w-24 cursor-pointer hover:scale-110 transition-transform z-10"
-                  style={{ transform: `translate(${textX}px, ${textY}px)` }}
+                  className={`absolute flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-full transition-transform z-10
+                    ${isSelected ? 'ring-2 ring-red-400/60 ring-offset-2' : 'hover:ring-2 hover:ring-blue-400/40'}
+                  `}
+                  style={{
+                    transform: `translate(${textX}px, ${textY}px)`,
+                    background: isSelected ? 'rgba(255,255,255,0.04)' : 'transparent',
+                    boxShadow: isSelected ? '0 0 12px 2px rgba(239,68,68,0.15)' : 'none',
+                    padding: 0,
+                  }}
+                  aria-label={prog.name}
                 >
-                  <span className={`text-[10px] sm:text-[11px] font-semibold leading-tight text-center transition-colors duration-300 ${
-                    isSelected 
-                      ? 'text-white font-bold drop-shadow-md scale-110' 
-                      : prog.highlight 
-                        ? 'text-emerald-400 hover:text-emerald-300' 
+                  <span className={`relative z-10 text-[10px] sm:text-[11px] font-semibold leading-tight text-center transition-colors duration-300 ${
+                    isSelected
+                      ? 'text-white font-bold drop-shadow-md scale-110'
+                      : prog.highlight
+                        ? 'text-emerald-400 hover:text-emerald-300'
                         : 'text-slate-400 hover:text-slate-200'
                   }`}>
                     {prog.name}
                   </span>
-                </div>
+                </button>
               </React.Fragment>
             );
           })}
@@ -237,11 +270,11 @@ function App() {
           <Settings size={20} className="text-slate-400" />
           <span className="font-medium">Target Start Time</span>
         </div>
-        <input 
-          type="time" 
+        <input
+          type="time"
           value={targetTime}
-          onChange={(e) => setTargetTime(e.target.value)}
-          className="bg-slate-900 border border-slate-700 text-white px-3 py-1.5 rounded-lg focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 font-mono"
+          disabled
+          className="bg-slate-900 border border-slate-700 text-white px-3 py-1.5 rounded-lg focus:outline-none font-mono opacity-60 cursor-not-allowed"
         />
       </div>
 

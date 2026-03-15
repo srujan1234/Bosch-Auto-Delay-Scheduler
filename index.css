@@ -1,3 +1,58 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.animate-bounce-slow {
+  animation: bounce-slow 1.2s infinite;
+}
+@keyframes heat-waves {
+  0%, 100% { opacity: 1; transform: translateY(0); }
+  50% { opacity: 0.7; transform: translateY(-6px) scaleX(1.05); }
+}
+.animate-heat-waves {
+  animation: heat-waves 1.4s infinite;
+}
+
+@keyframes bubbleUp1 {
+  0% { transform: translateY(0) scale(1); opacity: 0.25; }
+  60% { opacity: 0.18; }
+  100% { transform: translateY(-18px) scale(1.12); opacity: 0; }
+}
+@keyframes bubbleUp2 {
+  0% { transform: translateY(0) scale(1); opacity: 0.18; }
+  60% { opacity: 0.13; }
+  100% { transform: translateY(-24px) scale(1.18); opacity: 0; }
+}
+@keyframes bubbleUp3 {
+  0% { transform: translateY(0) scale(1); opacity: 0.13; }
+  60% { opacity: 0.10; }
+  100% { transform: translateY(-14px) scale(1.08); opacity: 0; }
+}
+.bubble-1 { animation: bubbleUp1 2.2s infinite linear; }
+.bubble-2 { animation: bubbleUp2 2.7s infinite linear 0.7s; }
+.bubble-3 { animation: bubbleUp3 2.5s infinite linear 1.1s; }
+
+@keyframes bubbleFloat0 { 0% { transform: translateY(0); opacity: 0.18; } 100% { transform: translateY(-8px); opacity: 0; } }
+@keyframes bubbleFloat1 { 0% { transform: translateY(0); opacity: 0.18; } 100% { transform: translateY(-10px); opacity: 0; } }
+@keyframes bubbleFloat2 { 0% { transform: translateY(0); opacity: 0.18; } 100% { transform: translateY(-12px); opacity: 0; } }
+@keyframes bubbleFloat3 { 0% { transform: translateY(0); opacity: 0.18; } 100% { transform: translateY(-7px); opacity: 0; } }
+@keyframes bubbleFloat4 { 0% { transform: translateY(0); opacity: 0.18; } 100% { transform: translateY(-9px); opacity: 0; } }
+@keyframes bubbleFloat5 { 0% { transform: translateY(0); opacity: 0.18; } 100% { transform: translateY(-11px); opacity: 0; } }
+@keyframes bubbleFloat6 { 0% { transform: translateY(0); opacity: 0.18; } 100% { transform: translateY(-8px); opacity: 0; } }
+@keyframes bubbleFloat7 { 0% { transform: translateY(0); opacity: 0.18; } 100% { transform: translateY(-10px); opacity: 0; } }
+@keyframes bubbleFloat8 { 0% { transform: translateY(0); opacity: 0.18; } 100% { transform: translateY(-12px); opacity: 0; } }
+@keyframes bubbleFloat9 { 0% { transform: translateY(0); opacity: 0.18; } 100% { transform: translateY(-7px); opacity: 0; } }
+.bubbleFloat0 { animation: bubbleFloat0 2.2s infinite linear; }
+.bubbleFloat1 { animation: bubbleFloat1 2.5s infinite linear 0.2s; }
+.bubbleFloat2 { animation: bubbleFloat2 2.3s infinite linear 0.4s; }
+.bubbleFloat3 { animation: bubbleFloat3 2.6s infinite linear 0.6s; }
+.bubbleFloat4 { animation: bubbleFloat4 2.4s infinite linear 0.8s; }
+.bubbleFloat5 { animation: bubbleFloat5 2.7s infinite linear 1.0s; }
+.bubbleFloat6 { animation: bubbleFloat6 2.2s infinite linear 1.2s; }
+.bubbleFloat7 { animation: bubbleFloat7 2.5s infinite linear 1.4s; }
+.bubbleFloat8 { animation: bubbleFloat8 2.3s infinite linear 1.6s; }
+.bubbleFloat9 { animation: bubbleFloat9 2.6s infinite linear 1.8s; }
